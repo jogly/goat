@@ -1,0 +1,10 @@
+# Go
+**/vendor
+**/tmp
+
+# Vim
+*.swp
+tags
+
+# VSCode
+.vscode

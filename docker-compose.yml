@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  goat:
+    build:
+      context: .
+      target: dev
+    environment:
+      - PORT=9000
+      - ENV=dev
+    volumes:
+      - ./:/code
+      - cache:/root/.cache
+    image: goat:dev
+    ports:
+      - 9000:9000
+
+volumes:
+  cache: {}
