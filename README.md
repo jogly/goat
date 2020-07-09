@@ -1,4 +1,6 @@
-# 🐐
+# 🐐 
+
+![Goat Inspector](https://github.com/banditml/goat/workflows/Goat%20Inspector/badge.svg)
 
 ## 🐳 Docker things
 
