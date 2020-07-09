@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	env "github.com/Netflix/go-env"
-
 	"github.com/go-playground/validator/v10"
 	"go.uber.org/fx"
 	"go.uber.org/zap"

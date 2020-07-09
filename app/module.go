@@ -6,13 +6,14 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
+	"go.uber.org/fx"
+	"go.uber.org/zap"
+
 	"github.com/banditml/goat/envfx"
 	"github.com/banditml/goat/ginfx"
 	"github.com/banditml/goat/route"
 	"github.com/banditml/goat/zapfx"
-	"github.com/gin-gonic/gin"
-	"go.uber.org/fx"
-	"go.uber.org/zap"
 )
 
 var Module = fx.Options(

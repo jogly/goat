@@ -1,9 +1,10 @@
 package ginfx
 
 import (
-	"github.com/banditml/goat/envfx"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/fx"
+
+	"github.com/banditml/goat/envfx"
 )
 
 var Module = fx.Provide(func(env *envfx.Env) *gin.Engine {
