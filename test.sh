@@ -3,6 +3,7 @@
 set -e
 echo "" > coverage.txt
 
+export ENV=test
 for d in $(go list ./... | grep -v vendor); do
     go test -race \
         -coverprofile=profile.out \

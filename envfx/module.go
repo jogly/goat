@@ -27,7 +27,7 @@ const (
 // Env is a collection of configuration sourced from environment variables.
 type Env struct {
 	Tag  Environment `env:"ENV" validate:"gt=0"`
-	Port int         `env:"PORT" validate:"gt=0"`
+	Port int         `env:"PORT"`
 
 	Extras env.EnvSet
 }
