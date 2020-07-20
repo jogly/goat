@@ -68,7 +68,7 @@
                 {
                     "name": "PGUSER",
                     "valueFrom": "arn:aws:ssm:us-west-1:727419036083:parameter/PGUSER"
-                },
+                }
             ],
             "healthCheck": {
                 "command": [
