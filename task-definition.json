@@ -1,0 +1,116 @@
+{
+    "family": "goat-task",
+    "executionRoleArn": "arn:aws:iam::727419036083:role/ecs-custom-cluster-role",
+    "taskRoleArn": "arn:aws:iam::727419036083:role/ecs-custom-cluster-role",
+    "cpu": "512",
+    "memory": "2048",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+        {
+            "name": "goat",
+            "image": "727419036083.dkr.ecr.us-west-1.amazonaws.com/goat:latest",
+            "essential": true,
+            "logConfiguration": {
+                "logDriver": "awsfirelens",
+                "options": {
+                    "Name": "datadog",
+                    "Host": "http-intake.logs.datadoghq.com",
+                    "apikey": "02ffd9e207a75a2e0e15930c1ed96175",
+                    "dd_service": "goat",
+                    "dd_source": "golang",
+                    "dd_message_key": "log",
+                    "dd_tags": "project:fluentbit",
+                    "TLS": "on",
+                    "provider": "ecs"
+                }
+            },
+            "portMappings": [
+                {
+                    "containerPort": 9000,
+                    "protocol": "tcp"
+                }
+            ],
+            "environment": [
+                {
+                    "name": "PORT",
+                    "value": "9000"
+                },
+                {
+                    "name": "DD_SERVICE",
+                    "value": "goat"
+                },
+                {
+                    "name": "HOST",
+                    "value": "shopify.banditosonly.com"
+                }
+            ],
+            "secrets": [
+                {
+                    "name": "SHOPIFY_API_KEY",
+                    "valueFrom": "arn:aws:ssm:us-west-1:727419036083:parameter/SHOPIFY_API_KEY"
+                },
+                {
+                    "name": "SHOPIFY_API_SECRET",
+                    "valueFrom": "arn:aws:ssm:us-west-1:727419036083:parameter/SHOPIFY_API_SECRET"
+                },
+                {
+                    "name": "POSTGRES_PASSWORD",
+                    "valueFrom": "arn:aws:ssm:us-west-1:727419036083:parameter/POSTGRES_PASSWORD"
+                }
+            ],
+            "healthCheck": {
+                "command": [
+                    "CMD-SHELL",
+                    "curl -f http://localhost:9000/health || exit 1"
+                ],
+                "interval": "5",
+                "timeout": "2",
+                "startPeriod": "10",
+                "retries": "2"
+            }
+        },
+        {
+            "name": "datadog-agent",
+            "image": "datadog/agent:latest",
+            "memoryReservation": 512,
+            "environment": [
+                {
+                    "name": "ECS_FARGATE",
+                    "value": "true"
+                },
+                {
+                    "name": "DD_APM_ENABLED",
+                    "value": "true"
+                }
+            ],
+            "secrets": [
+                {
+                    "name": "DD_API_KEY",
+                    "valueFrom": "arn:aws:ssm:us-west-1:727419036083:parameter/DD_API_KEY"
+                }
+            ]
+        },
+        {
+            "essential": true,
+            "image": "906394416424.dkr.ecr.us-west-1.amazonaws.com/aws-for-fluent-bit:latest",
+            "memoryReservation": 512,
+            "name": "log_router",
+            "firelensConfiguration": {
+                "type": "fluentbit",
+                "options": { "enable-ecs-log-metadata": "true" }
+            },
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "firelens-container",
+                    "awslogs-region": "us-west-1",
+                    "awslogs-create-group": "true",
+                    "awslogs-stream-prefix": "firelens"
+                }
+            }
+        }
+    ],
+    "placementConstraints": [],
+    "requiresCompatibilities": ["FARGATE"],
+    "volumes": []
+}

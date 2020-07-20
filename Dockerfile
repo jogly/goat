@@ -11,6 +11,14 @@ CMD ["air"]
 
 
 FROM alpine:latest AS prod
+
+ARG ENV=local
+ARG VERSION
+
 COPY --from=dev /code/tmp/goat /goat
+
+ENV ENV=$ENV
+ENV VERSION=$VERSION
+
 RUN chmod +x /goat
 CMD ["/goat"]
