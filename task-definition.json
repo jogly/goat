@@ -3,7 +3,7 @@
     "executionRoleArn": "arn:aws:iam::727419036083:role/ecs-custom-cluster-role",
     "taskRoleArn": "arn:aws:iam::727419036083:role/ecs-custom-cluster-role",
     "cpu": "512",
-    "memory": "2048",
+    "memory": "1024",
     "networkMode": "awsvpc",
     "containerDefinitions": [
         {
