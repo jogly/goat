@@ -46,6 +46,10 @@
                 {
                     "name": "PGDATABASE",
                     "value": "goat"
+                },
+                {
+                    "name": "GIN_MODE",
+                    "value": "release"
                 }
             ],
             "secrets": [

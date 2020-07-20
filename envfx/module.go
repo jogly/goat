@@ -16,9 +16,9 @@ type Environment = string
 const (
 	// Test is the test environment.
 	Test Environment = "test"
-	// Development is the local environment.  There should be minimal
+	// Local is the local environment.  There should be minimal
 	// dependency on this.
-	Development Environment = "development"
+	Local Environment = "local"
 	// Production is a singular "released" environment.  Staging is not
 	// distinct from Production.
 	Production Environment = "production"
@@ -54,9 +54,9 @@ func NewEnv() *Env {
 	switch strings.ToLower(e.Tag) {
 	case "test":
 		e.Tag = Test
-	case "dev", "devel", "development":
-		e.Tag = Development
-	case "prod", "production":
+	case "local":
+		e.Tag = Local
+	case "dev", "development", "stage", "staging", "prod", "production":
 		e.Tag = Production
 	}
 
