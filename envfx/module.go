@@ -10,30 +10,31 @@ import (
 	"go.uber.org/zap"
 )
 
-// Environment types Env.Tag
-type Environment = string
+// Mode lets consumers know what mode the app in running in.
+type Mode = string
 
 const (
-	// Test is the test environment.
-	Test Environment = "test"
-	// Local is the local environment.  There should be minimal
+	// Test is the test Mode.
+	Test Mode = "test"
+	// Local is the local Mode.  There should be minimal
 	// dependency on this.
-	Local Environment = "local"
-	// Production is a singular "released" environment.  Staging is not
+	Local Mode = "local"
+	// Production is a singular "released" Mode.  Staging is not
 	// distinct from Production.
-	Production Environment = "production"
+	Release Mode = "release"
 )
 
 // Env is a collection of configuration sourced from environment variables.
 type Env struct {
-	Tag  Environment `env:"ENV" validate:"gt=0"`
-	Port int         `env:"PORT"`
+	Env  string `env:"ENV" validate:"gt=0"`
+	Mode Mode
+	Port int `env:"PORT"`
 
 	Extras env.EnvSet
 }
 
-func (e *Env) IsProduction() bool {
-	return e.Tag == Production
+func (e *Env) IsRelease() bool {
+	return e.Mode == Release
 }
 
 // Module is a FX Module
@@ -51,13 +52,13 @@ func NewEnv() *Env {
 	if err = validator.New().Struct(e); err != nil {
 		l.Fatal(err.Error())
 	}
-	switch strings.ToLower(e.Tag) {
+	switch strings.ToLower(e.Env) {
 	case "test":
-		e.Tag = Test
+		e.Mode = Test
 	case "local":
-		e.Tag = Local
+		e.Mode = Local
 	case "dev", "development", "stage", "staging", "prod", "production":
-		e.Tag = Production
+		e.Mode = Release
 	}
 
 	l.Debug("successfully loaded environment", zap.Any("context", e))

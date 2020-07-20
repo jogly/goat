@@ -9,7 +9,7 @@ import (
 
 var Module = fx.Provide(func(env *envfx.Env) *gin.Engine {
 	r := gin.Default()
-	if env.IsProduction() {
+	if env.IsRelease() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	r.RedirectTrailingSlash = true
