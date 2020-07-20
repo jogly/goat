@@ -42,6 +42,10 @@
                 {
                     "name": "HOST",
                     "value": "shopify.banditosonly.com"
+                },
+                {
+                    "name": "PGDATABASE",
+                    "value": "goat"
                 }
             ],
             "secrets": [
@@ -60,10 +64,6 @@
                 {
                     "name": "PGPASSWORD",
                     "valueFrom": "arn:aws:ssm:us-west-1:727419036083:parameter/PGPASSWORD"
-                },
-                {
-                    "name": "PGDATABASE",
-                    "valueFrom": "arn:aws:ssm:us-west-1:727419036083:parameter/PGDATABASE"
                 },
                 {
                     "name": "PGUSER",
