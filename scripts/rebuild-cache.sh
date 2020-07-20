@@ -3,7 +3,8 @@
 DOCKER_BUILDKIT=1 \
   docker build \
   --build-arg BUILDKIT_INLINE_CACHE=1 \
-  -t 727419036083.dkr.ecr.us-west-1.amazonaws.com/shopify:cache \
+  -t 727419036083.dkr.ecr.us-west-1.amazonaws.com/goat:cache \
+  --target prod \
   .
 
 aws ecr get-login-password \
@@ -13,4 +14,4 @@ aws ecr get-login-password \
   --password-stdin \
   727419036083.dkr.ecr.us-west-1.amazonaws.com
 
-docker push 727419036083.dkr.ecr.us-west-1.amazonaws.com/shopify:cache
+docker push 727419036083.dkr.ecr.us-west-1.amazonaws.com/goat:cache
