@@ -17,7 +17,7 @@
                     "Host": "http-intake.logs.datadoghq.com",
                     "apikey": "02ffd9e207a75a2e0e15930c1ed96175",
                     "dd_service": "goat",
-                    "dd_source": "golang",
+                    "dd_source": "go",
                     "dd_message_key": "log",
                     "dd_tags": "project:fluentbit",
                     "TLS": "on",
