@@ -34,6 +34,7 @@ func Register(p Params) error {
 		p.Engine.POST("/"+h.Resource(), h.Post)
 		p.Engine.PUT("/"+h.Resource()+"/:uuid", h.Put)
 	}
+
 	return nil
 }
 

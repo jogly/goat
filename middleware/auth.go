@@ -9,10 +9,16 @@ import (
 )
 
 func Auth(ctx *gin.Context) {
+	if ctx.FullPath() == "/health" || ctx.FullPath() == "" {
+		ctx.Next()
+		return
+	}
 	if ctx.GetHeader(header.BanditId) == "" {
+
 		ctx.AbortWithError(
 			http.StatusUnauthorized,
-			errors.New(header.BanditId+" is required"))
+			errors.New(ctx.FullPath()+" is protected: "+header.BanditId+" is required"))
+		return
 	}
 
 	ctx.Next()
