@@ -12,16 +12,34 @@ import (
 
 	"github.com/banditml/goat/envfx"
 	"github.com/banditml/goat/ginfx"
+	"github.com/banditml/goat/gormfx"
+	"github.com/banditml/goat/handler"
+	"github.com/banditml/goat/model"
 	"github.com/banditml/goat/route"
 	"github.com/banditml/goat/zapfx"
 )
 
-var Module = fx.Options(
-	// Order of Modules does not matter! Thanks FX.
-	ginfx.Module,
+var BaseModule = fx.Options(
 	zapfx.Module,
 	envfx.Module,
+)
+
+var WebModule = fx.Options(
+	// Order of Modules does not matter! Thanks FX.
+	ginfx.Module,
 	route.Module,
+	handler.Module,
+)
+
+var DBModule = fx.Options(
+	gormfx.Module,
+	model.Module,
+)
+
+var Module = fx.Options(
+	BaseModule,
+	WebModule,
+	DBModule,
 )
 
 // Params is an FX-convention for declaring everything a function or struct

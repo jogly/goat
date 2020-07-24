@@ -22,15 +22,24 @@ const (
 	// Production is a singular "released" Mode.  Staging is not
 	// distinct from Production.
 	Release Mode = "release"
+
+	DefaultEnv = "local"
 )
 
 // Env is a collection of configuration sourced from environment variables.
 type Env struct {
-	Env  string `env:"ENV" validate:"gt=0"`
+	Env  string `env:"ENV" validate:"required"`
 	Mode Mode
 	Port int `env:"PORT"`
 
-	Extras env.EnvSet
+	Postgres struct {
+		User     string `env:"PGUSER"`
+		Password string `env:"PGPASSWORD"`
+		Host     string `env:"PGHOST"`
+		Database string `env:"PGDATABASE"`
+	}
+
+	Extras env.EnvSet `json:"-"`
 }
 
 func (e *Env) IsRelease() bool {
@@ -49,6 +58,10 @@ func NewEnv() *Env {
 		l.Fatal(err.Error())
 	}
 	e.Extras = es
+
+	if e.Env == "" {
+		e.Env = DefaultEnv
+	}
 	if err = validator.New().Struct(e); err != nil {
 		l.Fatal(err.Error())
 	}

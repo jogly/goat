@@ -6,14 +6,14 @@ services:
       context: .
       target: dev
     environment:
-      - PORT=9000
-      - ENV=dev
+      - PORT=80
+      - ENV=local
     volumes:
       - ./:/code
       - cache:/root/.cache
     image: goat:dev
     ports:
-      - 9000:9000
+      - 9000:80
 
 volumes:
   cache: {}
