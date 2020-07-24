@@ -34,7 +34,7 @@ func NewDB(p Params) (*gorm.DB, error) {
 		dbName := os.Getenv("PGDATABASE")
 		dbHost := os.Getenv("PGHOST")
 
-		dbUri := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=enable password=%s", dbHost, username, dbName, password)
+		dbUri := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=require password=%s", dbHost, username, dbName, password)
 		db, err = gorm.Open("postgres", dbUri)
 	} else {
 		db, err = gorm.Open("sqlite3", "file::memory:?cache=shared")
