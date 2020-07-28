@@ -57,7 +57,7 @@ func ginLog(logger *zap.Logger) gin.HandlerFunc {
 			sb := strings.Builder{}
 			for _, e := range c.Errors.Errors() {
 				sb.WriteString(e)
-				sb.WriteRune("\\n")
+				sb.WriteString("\\n")
 			}
 			logger.Error("errors encountered during request",
 				zap.String("errors", sb.String()))
