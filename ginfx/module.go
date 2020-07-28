@@ -40,8 +40,8 @@ func ginLog(logger *zap.Logger) gin.HandlerFunc {
 		latency := end.Sub(start)
 		end = end.UTC()
 
-		logger = logger.With(
-			zap.String("timestamp", end.Format(time.RFC3339)),
+		logger := logger.With(
+			zap.String("timestamp", end.Format(time.RFC3339Nano)),
 			zap.Duration("duration", latency),
 			zap.String("bandit.id", c.Request.Header.Get(header.BanditID)),
 			zap.Int("http.status_code", c.Writer.Status()),
