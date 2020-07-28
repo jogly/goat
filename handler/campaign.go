@@ -34,7 +34,7 @@ func (p *CampaignHandler) Get(c *gin.Context) {
 	campaign := new(model.Campaign)
 	if err := p.db.First(campaign, "account = ?", account).Error; err != nil {
 		if gorm.IsRecordNotFoundError(err) {
-			c.JSON(http.StatusNotFound, gin.H{})
+			c.JSON(http.StatusBadRequest, gin.H{})
 			return
 		}
 		panic(err)
