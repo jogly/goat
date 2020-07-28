@@ -63,10 +63,10 @@ func ginLog(logger *zap.Logger) gin.HandlerFunc {
 				sb.WriteString(e)
 				sb.WriteString("\\n")
 			}
-			logger.Error("errors encountered during request",
+			logger.Error("request completed with errors",
 				zap.String("errors", sb.String()))
 		} else {
-			logger.Info(path)
+			logger.Info("request completed")
 		}
 	}
 }
