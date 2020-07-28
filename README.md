@@ -1,6 +1,8 @@
 # 🐐 
 
-![Goat Inspector](https://github.com/banditml/goat/workflows/Goat%20Inspector/badge.svg)
+![👀 Lint](https://github.com/banditml/goat/workflows/Goat%20Inspector/badge.svg)
+![🛶 Dev](https://github.com/banditml/goat/workflows/%F0%9F%9B%B6%20Ship%20It/badge.svg?branch=dev)
+![🛶 Prod](https://github.com/banditml/goat/workflows/%F0%9F%9B%B6%20Ship%20It/badge.svg?branch=prod)
 
 ## 🐳 Docker things
 
