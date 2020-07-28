@@ -1,5 +1,10 @@
+// Package header contains app-header constants.
+// Use like:
+//
+//   ctx.GetHeader(header.BanditID)
+//
 package header
 
 const (
-	BanditId = "x-bandit-id"
+	BanditID = "x-bandit-id"
 )

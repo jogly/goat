@@ -49,8 +49,17 @@ jobs:
             --build-arg ENV=${IMAGE_TAG} \
             --build-arg VERSION=${version} \
             --cache-from "$cache_path" \
+            --target dev \
+            .
+
+          DOCKER_BUILDKIT=1 docker build \
+            -t "${image_base}:${IMAGE_TAG}" \
+            -t "${image_base}:${version}" \
+            --build-arg ENV=${IMAGE_TAG} \
+            --build-arg VERSION=${version} \
             --target prod \
             .
+
           docker push $image_base
           echo ::set-output name=image_path::${image_base}:${version}
       - name: Render Amazon ECS task definition

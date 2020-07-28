@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/banditml/goat/app"
-	"github.com/banditml/goat/model"
 	"github.com/jinzhu/gorm"
 	"go.uber.org/fx"
+
+	"github.com/banditml/goat/app"
+	"github.com/banditml/goat/model"
 )
 
 func main() {

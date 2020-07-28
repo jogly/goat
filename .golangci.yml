@@ -118,6 +118,9 @@ issues:
     - linters:
         - golint
       text: 'comment'
+    - linters:
+        - errcheck
+      text: 'AbortWithError'
 
 run:
   skip-dirs:

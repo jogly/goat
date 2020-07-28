@@ -1,11 +1,13 @@
+// Package middleware contains various Gin middlewares
 package middleware
 
 import (
 	"errors"
 	"net/http"
 
-	"github.com/banditml/goat/header"
 	"github.com/gin-gonic/gin"
+
+	"github.com/banditml/goat/header"
 )
 
 func Auth(ctx *gin.Context) {
@@ -13,11 +15,10 @@ func Auth(ctx *gin.Context) {
 		ctx.Next()
 		return
 	}
-	if ctx.GetHeader(header.BanditId) == "" {
-
+	if ctx.GetHeader(header.BanditID) == "" {
 		ctx.AbortWithError(
 			http.StatusUnauthorized,
-			errors.New(ctx.FullPath()+" is protected: "+header.BanditId+" is required"))
+			errors.New(ctx.FullPath()+" is protected: "+header.BanditID+" is required"))
 		return
 	}
 
