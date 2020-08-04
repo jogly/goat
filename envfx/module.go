@@ -32,6 +32,8 @@ type Env struct {
 	Mode Mode
 	Port int `env:"PORT"`
 
+	Version string `env:"VERSION"`
+
 	Postgres struct {
 		User     string `env:"PGUSER"`
 		Password string `env:"PGPASSWORD"`
