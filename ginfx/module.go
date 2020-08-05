@@ -1,12 +1,14 @@
 package ginfx
 
 import (
+	"strconv"
 	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
+	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
 
 	"github.com/banditml/goat/envfx"
 	"github.com/banditml/goat/header"
@@ -31,29 +33,35 @@ var Module = fx.Provide(func(zap *zap.Logger, env *envfx.Env) *gin.Engine {
 func ginLog(logger *zap.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now()
-		// some evil middlewares modify this values
-		path := c.Request.URL.Path
-		query := c.Request.URL.RawQuery
+		span := tracer.StartSpan("web.request", tracer.ResourceName(""))
+		defer span.Finish()
 		c.Next()
 
 		end := time.Now()
 		latency := end.Sub(start)
 		end = end.UTC()
 
-		if query != "" {
-			path += "?" + query
-		}
+		baggage := map[string]string{}
+		span.Context().ForeachBaggageItem(func(k, v string) bool {
+			baggage[k] = v
+			return true
+		})
 
-		logger := logger.With(
+		requestLogger := logger.With(
 			zap.String("timestamp", end.Format(time.RFC3339Nano)),
 			zap.Duration("duration", latency),
-			zap.String("bandit.id", c.Request.Header.Get(header.BanditID)),
+			zap.String("bandit.id", c.GetHeader(header.BanditID)),
 			zap.Int("http.status_code", c.Writer.Status()),
 			zap.String("http.method", c.Request.Method),
-			zap.String("http.url_details.path", path),
+			zap.String("http.referer", c.GetHeader("Referer")),
+			zap.String("http.url", c.Request.RequestURI),
+			zap.String("http.useragent", c.GetHeader("User-Agent")),
 			zap.String("network.client.ip", c.ClientIP()),
 			zap.Int("network.bytes_written", c.Writer.Size()),
 			zap.Any("http.headers", c.Request.Header),
+			zap.String("dd.trace_id", strconv.Itoa(int(span.Context().TraceID()))),
+			zap.String("dd.span_id", strconv.Itoa(int(span.Context().SpanID()))),
+			zap.Any("dd.baggage", baggage),
 		)
 
 		if len(c.Errors) > 0 {
@@ -63,10 +71,10 @@ func ginLog(logger *zap.Logger) gin.HandlerFunc {
 				sb.WriteString(e)
 				sb.WriteString("\\n")
 			}
-			logger.Error("request completed with errors",
+			requestLogger.Error("request completed with errors",
 				zap.String("errors", sb.String()))
 		} else {
-			logger.Info("request completed")
+			requestLogger.Info("request completed")
 		}
 	}
 }
