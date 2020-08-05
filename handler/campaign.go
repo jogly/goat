@@ -12,6 +12,11 @@ import (
 	"github.com/banditml/goat/route"
 )
 
+// this is a common test to enforce at the package level this struct adheres to
+// the interface its designed to implement.  All it does is fail to compile if
+// the contract is broken.
+var _ = route.HandlerInterface(&CampaignHandler{})
+
 func NewCampaignHandler(db *gorm.DB, logger *zap.Logger) route.HandlerInterface {
 	return &CampaignHandler{
 		l:  logger,
@@ -35,7 +40,7 @@ func (p *CampaignHandler) Get(c *gin.Context) {
 	campaign := new(model.Campaign)
 	if err := p.db.First(campaign, "account = ?", account).Error; err != nil {
 		if gorm.IsRecordNotFoundError(err) {
-			c.JSON(http.StatusBadRequest, gin.H{})
+			c.JSON(http.StatusNotFound, gin.H{"error": gin.H{"code": "NOTFOUND"}})
 			return
 		}
 		panic(err)

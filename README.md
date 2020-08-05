@@ -1,4 +1,4 @@
-# 🐐 
+# 🐐
 
 ![👀 Lint](https://github.com/banditml/goat/workflows/Goat%20Inspector/badge.svg)
 ![🛶 Dev](https://github.com/banditml/goat/workflows/%F0%9F%9B%B6%20Ship%20It/badge.svg?branch=dev)
@@ -76,3 +76,18 @@ and everything will be ok).
 The logging framework we use here is [zap](https://github.com/uber-go/zap).  It
 is purpose built for structured backend logging which allows it to be not
 magical, thus fast.
+
+## Other nice things
+
+I really like pretty formatting, if you do too:
+
+```bash
+brew tap kyoh86/tap
+brew install richgo
+```
+
+then replace every `go` command with `richgo`, like:
+
+```bash
+richgo test ./...
+```
