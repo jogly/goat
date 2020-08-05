@@ -14,20 +14,20 @@ var Module = fx.Invoke(StartTracer)
 type Params struct {
 	fx.In
 
-	env *envfx.Env
-	lc  fx.Lifecycle
+	Env       *envfx.Env
+	Lifecycle fx.Lifecycle
 }
 
 func StartTracer(p Params) {
-	enabled := !p.env.IsRelease()
+	enabled := !p.Env.IsRelease()
 	if !enabled {
 		return
 	}
-	p.lc.Append(fx.Hook{
+	p.Lifecycle.Append(fx.Hook{
 		OnStart: func(context.Context) error {
 			tracer.Start(
-				tracer.WithEnv(p.env.Env),
-				tracer.WithServiceVersion(p.env.Version),
+				tracer.WithEnv(p.Env.Env),
+				tracer.WithServiceVersion(p.Env.Version),
 			)
 			return nil
 		},
