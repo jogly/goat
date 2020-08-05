@@ -33,7 +33,8 @@ var Module = fx.Provide(func(zap *zap.Logger, env *envfx.Env) *gin.Engine {
 func ginLog(logger *zap.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now()
-		span := tracer.StartSpan("web.request", tracer.ResourceName(""))
+		path := c.Request.URL.Path
+		span := tracer.StartSpan("web.request", tracer.ResourceName(path))
 		defer span.Finish()
 		c.Next()
 

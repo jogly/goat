@@ -10,6 +10,7 @@ import (
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 
+	"github.com/banditml/goat/ddtracefx"
 	"github.com/banditml/goat/envfx"
 	"github.com/banditml/goat/ginfx"
 	"github.com/banditml/goat/gormfx"
@@ -29,6 +30,7 @@ var WebModule = fx.Options(
 	ginfx.Module,
 	route.Module,
 	handler.Module,
+	ddtracefx.Module,
 )
 
 var DBModule = fx.Options(
