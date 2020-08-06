@@ -51,7 +51,6 @@ func withHeaders(c *http.Client) {
 	}
 
 	c.Transport = &headerTransport
-
 }
 
 type testTransport struct {
