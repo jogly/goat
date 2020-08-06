@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
+	gintrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/gin-gonic/gin"
 	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
 
 	"github.com/banditml/goat/envfx"
@@ -18,6 +19,7 @@ import (
 var Module = fx.Provide(func(zap *zap.Logger, env *envfx.Env) *gin.Engine {
 	zap = zap.Named("gin")
 	r := gin.New()
+	r.Use(gintrace.Middleware("goat"))
 	r.Use(ginLog(zap))
 	r.Use(gin.Recovery())
 	r.Use(middleware.Auth)

@@ -19,7 +19,7 @@ type Params struct {
 }
 
 func StartTracer(p Params) {
-	enabled := !p.Env.IsRelease()
+	enabled := p.Env.IsRelease()
 	if !enabled {
 		return
 	}

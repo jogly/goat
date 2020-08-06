@@ -121,6 +121,9 @@ issues:
     - linters:
         - errcheck
       text: 'AbortWithError'
+    - linters:
+        - stylecheck
+      text: 'package comment'
 
 run:
   skip-dirs:
