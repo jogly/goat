@@ -1,4 +1,4 @@
-# 🐐 
+# 🐐
 
 ![👀 Lint](https://github.com/banditml/goat/workflows/Goat%20Inspector/badge.svg)
 ![🛶 Dev](https://github.com/banditml/goat/workflows/%F0%9F%9B%B6%20Ship%20It/badge.svg?branch=dev)
@@ -26,16 +26,17 @@ That's it.
 
 ## 📁 Interesting files
 
-*.air.conf*
+### `.air.conf`
 https://github.com/cosmtrek/air
 
 Live reloading configuration for Go apps.
 
-*.golangci.yml*
+### `.golangci.yml`
 Master linter for Golang.  Runs a lot of checks right now which I thought might
 be helpful.  If it becomes to opinionated we can tone down the settings in this file.
 
-*Makefile*
+### `Makefile`
+
 * `up`
 * `shell`
 
@@ -43,8 +44,7 @@ be helpful.  If it becomes to opinionated we can tone down the settings in this 
 
 [`main.go`](./main.go) is always the main entrypoint in Go, it exists by
 itself, has the line `package main` in it, and has a single `func main()`
-defined.  This is where all the dependencies are collected and the http server
-is started.
+defined.
 
 ### Dependencies
 
@@ -76,3 +76,25 @@ and everything will be ok).
 The logging framework we use here is [zap](https://github.com/uber-go/zap).  It
 is purpose built for structured backend logging which allows it to be not
 magical, thus fast.
+
+### Linting / Formatting
+
+`golangci-lint` is an awesome meta linter, if a lint rule is obnoxious, you can
+find examples of how to ignore it in [./.golangci.yml].
+
+Use `goimports -local github.com/banditml ./...` to format the source code.
+
+## Other nice things
+
+I really like pretty formatting, if you do too:
+
+```bash
+brew tap kyoh86/tap
+brew install richgo
+```
+
+then replace every `go` command with `richgo`, like:
+
+```bash
+richgo test ./...
+```
